@@ -48,7 +48,7 @@ public partial class Form1 : Form
 
         //Settings summary label
         LabelSettingsSummary.Visible = true;
-        LabelSettingsSummary.Text = $"Population Size: {populationSize}\nMutation Rate: {MutationRate}\nMinimized? {minimize}";
+        LabelSettingsSummary.Text = $"Population Size: {populationSize}\nMutation Rate: {MutationRate}\nGradient Descent?{gradientDescent}\nMinimized? {minimize}\nMin Range: {minRange}, Max Range: {maxRange}\nTotal Generations: {generations}";
 
         //Function input
         func = GetUserDefinedFunction();

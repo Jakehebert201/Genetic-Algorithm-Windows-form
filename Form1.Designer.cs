@@ -74,7 +74,7 @@ partial class Form1
         // 
         chkMinimize.AutoSize = true;
         chkMinimize.BackColor = SystemColors.ButtonFace;
-        chkMinimize.Location = new Point(570, 61);
+        chkMinimize.Location = new Point(570, 86);
         chkMinimize.Name = "chkMinimize";
         chkMinimize.Size = new Size(83, 19);
         chkMinimize.TabIndex = 5;
@@ -226,7 +226,7 @@ partial class Form1
         // 
         // tabControl1
         // 
-        tabControl1.Location = new Point(65, 301);
+        tabControl1.Location = new Point(64, 342);
         tabControl1.Name = "tabControl1";
         tabControl1.SelectedIndex = 0;
         tabControl1.Size = new Size(966, 436);
@@ -237,10 +237,10 @@ partial class Form1
         // 
         chkGradDesc.AutoSize = true;
         chkGradDesc.BackColor = SystemColors.ButtonFace;
-        chkGradDesc.Location = new Point(548, 86);
+        chkGradDesc.Location = new Point(556, 61);
         chkGradDesc.Name = "chkGradDesc";
         chkGradDesc.Size = new Size(132, 19);
-        chkGradDesc.TabIndex = 101;
+        chkGradDesc.TabIndex = 5;
         chkGradDesc.Text = "Gradient Descent?*";
         chkGradDesc.UseVisualStyleBackColor = false;
         // 
@@ -250,7 +250,7 @@ partial class Form1
         labelMinGradInfo.BackColor = SystemColors.Info;
         labelMinGradInfo.Location = new Point(825, 80);
         labelMinGradInfo.Name = "labelMinGradInfo";
-        labelMinGradInfo.Size = new Size(247, 105);
+        labelMinGradInfo.Size = new Size(247, 90);
         labelMinGradInfo.TabIndex = 102;
         labelMinGradInfo.Text = resources.GetString("labelMinGradInfo.Text");
         // 
