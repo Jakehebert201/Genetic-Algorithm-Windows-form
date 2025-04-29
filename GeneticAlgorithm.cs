@@ -12,8 +12,6 @@ public class GeneticAlgorithm
     private double minRange { get; set; }
     private double maxRange { get; set; }
     private double range => maxRange - minRange;
-    private int evolveCount { get; set; }
-    public int _evolveCount { get; set; }
 
     public GeneticAlgorithm(int populationSize, double mutationRate, GradientDescent.GradientDescent.OptimizationFunction fitnessFunction, bool minimize, double MinRange, double MaxRange)
     {
@@ -38,20 +36,22 @@ public class GeneticAlgorithm
     {
         //fitness function, a higher value = better candidate
         double[] fitness = CalculateFitness(population, fitnessFunction);
-        double fitnessThreshold = fitness.Average() * 0.9;
         //Elite selection
         int eliteCount = Math.Max(1, (int)(populationSize * 0.05));
         var eliteRaw = minimize
-            ? population.Zip(fitness, (val, fit) => new { val, fit }).OrderBy(x => x.fit).Where(x => x.fit < fitnessThreshold)
-            : population.Zip(fitness, (val, fit) => new { val, fit }).OrderByDescending(x => x.fit).Where(x => x.fit < fitnessThreshold);
+        ? population.Zip(fitness, (val, fit) => new { val, fit }).OrderBy(x => x.fit)
+        : population.Zip(fitness, (val, fit) => new { val, fit }).OrderByDescending(x => x.fit);
+
 
         var elite = eliteRaw.Take(eliteCount).Select(x => x.val).ToList();
 
 
-        //Selection
+        //Selection via calculating variance among population, if variance is sufficiently high, tournament size will also be.
 
         int selectedCount = (int)Math.Ceiling((populationSize - eliteCount) / 2.0);
-        int tournamentSize = Math.Min(10, / 10000);
+        double mean = fitness.Average();
+        double variance = fitness.Select(f => Math.Pow(f - mean, 2)).Average();
+        int tournamentSize = variance > 1.0 ? 6 : (variance > 0.1 ? 4 : 2);
         List<double> selectedParents = new();
         for (int i = 0; i < selectedCount; i++)
         {
@@ -65,7 +65,8 @@ public class GeneticAlgorithm
         //Mutation and Replacement
 
         newPopulation = Mutation(newPopulation, mutationRate);
-        Array.Copy(elite.ToArray(), 0, newPopulation, 0, elite.Count);
+        population = elite.Concat(newPopulation.Take(populationSize - elite.Count)).ToArray();
+
     }
 
     /// <summary>
@@ -79,8 +80,14 @@ public class GeneticAlgorithm
         double[] fitness = new double[population.Length];
         for (int i = 0; i < population.Length; i++)
         {
+            if (population[i] < minRange || population[i] > maxRange)
+            {
+                fitness[i] = double.MinValue;
+                continue;
+            }
             double raw = fitnessFunction(population[i]);
-            fitness[i] = minimize ? 1.0 / (1.0 + Math.Abs(raw)) : raw;
+            fitness[i] = minimize ? -raw : raw;
+
         }
         return fitness;
     }
