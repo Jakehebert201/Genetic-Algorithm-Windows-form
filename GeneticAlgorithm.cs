@@ -103,4 +103,13 @@ private double[] Mutation(double[] population, double mutationRate){
         return $"GENETIC ALGORITHM:\nMinimized?:{minimize}\nMutation Rate: {mutationRate}\nPopulation Size: {populationSize}\nPopulation: {popvalues}";
     }
 
+    public double[] GetPopulation()
+    {
+        return this.population;
+    }
+    public void ResetPopulation()
+    {
+        InitializePopulation();
+    }
+
 }
