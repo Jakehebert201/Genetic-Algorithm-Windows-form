@@ -10,10 +10,10 @@ namespace GradientDescent
         /// <summary>
         /// Definition for the function to optimize: sin(x) + 0.1x
         /// </summary>
-        static OptimizationFunction func = x => (System.Math.Sin(x)) + (0.1 * x);
+        //static OptimizationFunction func = x => (System.Math.Sin(x)) + (0.1 * x);
 
         // Descent system  
-        public static double Optimize(OptimizationFunction func)
+        public static double Optimize(OptimizationFunction func, bool minimize)
         {
             double currentX = randall.NextDouble() * 10.0;
             double learningRate = 0.01;
@@ -22,7 +22,7 @@ namespace GradientDescent
             for (int i = 0; i < maxIterations; i++)
             {
                 double dydx = Derivative.CalculateDerivative(func, currentX);
-                currentX = currentX - learningRate * dydx;
+                currentX += (minimize ? -1 : 1) * learningRate * dydx;
             }
 
             return currentX;

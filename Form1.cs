@@ -21,6 +21,7 @@ public partial class Form1 : Form
     private int populationSize;
     private double MutationRate;
     private bool minimize;
+    private bool gradientDescent;
     private int generations;
     private double minRange;
     private double maxRange;
@@ -34,11 +35,13 @@ public partial class Form1 : Form
 
     private void btnRun_Click(object sender, EventArgs e)
     {
+        labelMinGradInfo.Visible = false;
         tabControl1.TabPages.Clear();
         //Vals from UI
         populationSize = int.Parse(numPopSize.Text);
         MutationRate = double.Parse(numMutationRate.Text);
         minimize = chkMinimize.Checked;
+        gradientDescent = chkGradDesc.Checked;
         generations = int.Parse(numGenerations.Text);
         minRange = double.Parse(numMinRange.Text);
         maxRange = double.Parse(numMaxRange.Text);
@@ -62,9 +65,22 @@ public partial class Form1 : Form
                 double[] Population = ga.GetPopulation();
                 int labelgen = (i == generations - 1) ? generations : i;
                 SaveSnapshot(labelgen, Population);
+            }
+            }
+        if (gradientDescent)
+        {
+            //Perform Gradient Descent algorithm, then output results to a table
 
+            double optimalVal = GradientDescent.Optimize(func, minimize);
+            optimalVal = Math.Max(minRange, optimalVal);
+            if (optimalVal == minRange)
+            {
+                Console.WriteLine("The optimal value is out of the selected range!");
             }
-            }
+            labelGradDescentOutput.Text = $"Gradient Descent found x = {optimalVal:F2}, f(x) = {func(optimalVal):F2}";
+            labelGradDescentOutput.Visible = true;
+
+        }
 
     }
 
@@ -75,8 +91,10 @@ public partial class Form1 : Form
         populationSize = int.Parse(numPopSize.Text);
         MutationRate = double.Parse(numMutationRate.Text);
         minimize = chkMinimize.Checked;
+        gradientDescent = chkGradDesc.Checked;
         minRange = double.Parse(numMinRange.Text);
         maxRange = double.Parse(numMaxRange.Text);
+
 
         //Recompile function
         func = GetUserDefinedFunction();
@@ -84,6 +102,7 @@ public partial class Form1 : Form
 
         //Reset Ga
         ga = new(populationSize, MutationRate, func, minimize, minRange, maxRange);
+        labelMinGradInfo.Visible = true;
 
 
     }
@@ -140,14 +159,17 @@ public partial class Form1 : Form
         var tabPage = new TabPage($"Gen {generation:N0}");
         var grid = new DataGridView() { Dock = DockStyle.Top, Height = 200 };
         var formsPlot = new ScottPlot.WinForms.FormsPlot() { Dock = DockStyle.Fill};
+        var tableLayout = new TableLayoutPanel() { Dock = DockStyle.Fill, RowCount = 2, ColumnCount = 1 };
 
-        
+        tableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 200F));
+        tableLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        tableLayout.Controls.Add(grid, 0, 0);
+        tableLayout.Controls.Add(formsPlot, 0, 1);
 
         DrawTable(grid, population);
         Drawplot(formsPlot, population);
 
-        tabPage.Controls.Add(grid);
-        tabPage.Controls.Add(formsPlot);
+        tabPage.Controls.Add(tableLayout);
         tabControl1.TabPages.Add(tabPage);
         tabControl1.Visible = true;
         

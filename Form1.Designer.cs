@@ -29,6 +29,7 @@ partial class Form1
     /// </summary>
     private void InitializeComponent()
     {
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
         btnRun = new Button();
         chkMinimize = new CheckBox();
         numPopSize = new NumericUpDown();
@@ -47,6 +48,9 @@ partial class Form1
         labelMaxRange = new Label();
         numMinRange = new NumericUpDown();
         tabControl1 = new TabControl();
+        chkGradDesc = new CheckBox();
+        labelMinGradInfo = new Label();
+        labelGradDescentOutput = new Label();
         ((System.ComponentModel.ISupportInitialize)numPopSize).BeginInit();
         ((System.ComponentModel.ISupportInitialize)numMutationRate).BeginInit();
         ((System.ComponentModel.ISupportInitialize)numGenerations).BeginInit();
@@ -70,9 +74,9 @@ partial class Form1
         // 
         chkMinimize.AutoSize = true;
         chkMinimize.BackColor = SystemColors.ButtonFace;
-        chkMinimize.Location = new Point(573, 66);
+        chkMinimize.Location = new Point(570, 61);
         chkMinimize.Name = "chkMinimize";
-        chkMinimize.Size = new Size(80, 19);
+        chkMinimize.Size = new Size(83, 19);
         chkMinimize.TabIndex = 5;
         chkMinimize.Text = "Minimize?";
         chkMinimize.UseVisualStyleBackColor = false;
@@ -83,7 +87,7 @@ partial class Form1
         numPopSize.AutoSize = true;
         numPopSize.Location = new Point(376, 65);
         numPopSize.Name = "numPopSize";
-        numPopSize.Size = new Size(44, 23);
+        numPopSize.Size = new Size(47, 23);
         numPopSize.TabIndex = 3;
         // 
         // numMutationRate
@@ -94,7 +98,7 @@ partial class Form1
         numMutationRate.Location = new Point(485, 65);
         numMutationRate.Maximum = new decimal(new int[] { 1, 0, 0, 0 });
         numMutationRate.Name = "numMutationRate";
-        numMutationRate.Size = new Size(44, 23);
+        numMutationRate.Size = new Size(51, 23);
         numMutationRate.TabIndex = 4;
         // 
         // LabelSettingsSummary
@@ -104,7 +108,7 @@ partial class Form1
         LabelSettingsSummary.ForeColor = SystemColors.InfoText;
         LabelSettingsSummary.Location = new Point(460, 240);
         LabelSettingsSummary.Name = "LabelSettingsSummary";
-        LabelSettingsSummary.Size = new Size(69, 15);
+        LabelSettingsSummary.Size = new Size(73, 15);
         LabelSettingsSummary.TabIndex = 100;
         LabelSettingsSummary.Text = "placeholder";
         LabelSettingsSummary.Visible = false;
@@ -116,7 +120,7 @@ partial class Form1
         labelMutationRate.BackColor = SystemColors.Info;
         labelMutationRate.Location = new Point(460, 102);
         labelMutationRate.Name = "labelMutationRate";
-        labelMutationRate.Size = new Size(82, 15);
+        labelMutationRate.Size = new Size(84, 15);
         labelMutationRate.TabIndex = 100;
         labelMutationRate.Text = "Mutation Rate";
         // 
@@ -134,7 +138,7 @@ partial class Form1
         labelPopSize.BackColor = SystemColors.Info;
         labelPopSize.Location = new Point(351, 102);
         labelPopSize.Name = "labelPopSize";
-        labelPopSize.Size = new Size(88, 15);
+        labelPopSize.Size = new Size(91, 15);
         labelPopSize.TabIndex = 100;
         labelPopSize.Text = "Population Size";
         // 
@@ -162,13 +166,13 @@ partial class Form1
         labelFunctionInfo.BackColor = SystemColors.Info;
         labelFunctionInfo.Location = new Point(419, 170);
         labelFunctionInfo.Name = "labelFunctionInfo";
-        labelFunctionInfo.Size = new Size(159, 15);
+        labelFunctionInfo.Size = new Size(162, 15);
         labelFunctionInfo.TabIndex = 100;
         labelFunctionInfo.Text = "Create a function. ex. (x^2-9)";
         // 
         // numGenerations
         // 
-        numGenerations.Location = new Point(684, 65);
+        numGenerations.Location = new Point(694, 65);
         numGenerations.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
         numGenerations.Name = "numGenerations";
         numGenerations.Size = new Size(84, 23);
@@ -179,9 +183,9 @@ partial class Form1
         // 
         labelGenerationCount.AutoSize = true;
         labelGenerationCount.BackColor = SystemColors.Info;
-        labelGenerationCount.Location = new Point(684, 102);
+        labelGenerationCount.Location = new Point(686, 102);
         labelGenerationCount.Name = "labelGenerationCount";
-        labelGenerationCount.Size = new Size(92, 15);
+        labelGenerationCount.Size = new Size(94, 15);
         labelGenerationCount.TabIndex = 100;
         labelGenerationCount.Text = "No. Generations";
         // 
@@ -208,7 +212,7 @@ partial class Form1
         labelMaxRange.BackColor = SystemColors.Info;
         labelMaxRange.Location = new Point(245, 102);
         labelMaxRange.Name = "labelMaxRange";
-        labelMaxRange.Size = new Size(97, 15);
+        labelMaxRange.Size = new Size(98, 15);
         labelMaxRange.TabIndex = 100;
         labelMaxRange.Text = "Maximum Range";
         // 
@@ -229,12 +233,48 @@ partial class Form1
         tabControl1.TabIndex = 21;
         tabControl1.Visible = false;
         // 
+        // chkGradDesc
+        // 
+        chkGradDesc.AutoSize = true;
+        chkGradDesc.BackColor = SystemColors.ButtonFace;
+        chkGradDesc.Location = new Point(548, 86);
+        chkGradDesc.Name = "chkGradDesc";
+        chkGradDesc.Size = new Size(132, 19);
+        chkGradDesc.TabIndex = 101;
+        chkGradDesc.Text = "Gradient Descent?*";
+        chkGradDesc.UseVisualStyleBackColor = false;
+        // 
+        // labelMinGradInfo
+        // 
+        labelMinGradInfo.AutoSize = true;
+        labelMinGradInfo.BackColor = SystemColors.Info;
+        labelMinGradInfo.Location = new Point(825, 80);
+        labelMinGradInfo.Name = "labelMinGradInfo";
+        labelMinGradInfo.Size = new Size(247, 105);
+        labelMinGradInfo.TabIndex = 102;
+        labelMinGradInfo.Text = resources.GetString("labelMinGradInfo.Text");
+        // 
+        // labelGradDescentOutput
+        // 
+        labelGradDescentOutput.AutoSize = true;
+        labelGradDescentOutput.BackColor = SystemColors.Info;
+        labelGradDescentOutput.ForeColor = SystemColors.InfoText;
+        labelGradDescentOutput.Location = new Point(611, 240);
+        labelGradDescentOutput.Name = "labelGradDescentOutput";
+        labelGradDescentOutput.Size = new Size(42, 15);
+        labelGradDescentOutput.TabIndex = 103;
+        labelGradDescentOutput.Text = "label1";
+        labelGradDescentOutput.Visible = false;
+        // 
         // Form1
         // 
         AutoScaleMode = AutoScaleMode.Inherit;
         AutoSize = true;
         BackColor = SystemColors.ActiveCaption;
         ClientSize = new Size(1129, 811);
+        Controls.Add(labelGradDescentOutput);
+        Controls.Add(labelMinGradInfo);
+        Controls.Add(chkGradDesc);
         Controls.Add(tabControl1);
         Controls.Add(numMinRange);
         Controls.Add(labelMaxRange);
@@ -253,6 +293,8 @@ partial class Form1
         Controls.Add(numPopSize);
         Controls.Add(chkMinimize);
         Controls.Add(btnRun);
+        Font = new Font("Calibri", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        Icon = (Icon)resources.GetObject("$this.Icon");
         Name = "Form1";
         Text = "Genetic Algorithm Visualizer";
         Load += Form1_Load;
@@ -295,4 +337,7 @@ partial class Form1
     private Label labelMaxRange;
     private NumericUpDown numMinRange;
     private TabControl tabControl1;
+    private CheckBox chkGradDesc;
+    private Label labelMinGradInfo;
+    private Label labelGradDescentOutput;
 }
