@@ -10,21 +10,24 @@ private double mutationRate;
 private Random randall = new Random();
 private bool minimize;
 private GradientDescent.GradientDescent.OptimizationFunction fitnessFunction;
+private double minRange { get; set; }
+private double maxRange { get; set; }
+private double range => maxRange - minRange;
 
-public GeneticAlgorithm(int populationSize, double mutationRate, GradientDescent.GradientDescent.OptimizationFunction fitnessFunction, bool minimize)
+    public GeneticAlgorithm(int populationSize, double mutationRate, GradientDescent.GradientDescent.OptimizationFunction fitnessFunction, bool minimize, double MinRange, double MaxRange)
 {
     this.populationSize = populationSize;
     this.mutationRate = mutationRate;
     this.fitnessFunction = fitnessFunction;
     this.minimize = minimize;
+    this.minRange = MinRange;
+    this.maxRange = MaxRange;
     InitializePopulation();
 }
 private void InitializePopulation(){
-    double minRange = -10.0;
-    double maxRange = 10.0;
     population = new double[populationSize];
     for (int i = 0; i < populationSize; i++){
-        population[i] = randall.NextDouble() * (maxRange -minRange);
+        population[i] = randall.NextDouble() * (maxRange -minRange)+minRange;
     }
 }
 
@@ -88,11 +91,13 @@ private double[] Crossover(List<double> parents){
     
     return newPopulation.ToArray();
 }
-private double[] Mutation(double[] population, double mutationRate){        
+private double[] Mutation(double[] population, double mutationRate){
+
         for(int i = 0; i < population.Length; i++){
             if(randall.NextDouble() < mutationRate){
                 double epsilon = (randall.NextDouble()*1.0)-0.5; //Should now be a random value between -0.5 and 0.5
                 population[i] += epsilon;
+                population[i] = Math.Max(minRange, Math.Min(maxRange, population[i]));
         }
     }
     return population;
