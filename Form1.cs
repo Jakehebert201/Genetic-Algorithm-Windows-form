@@ -5,6 +5,7 @@ using GradientDescent;
 using System.Security.AccessControl;
 using System.Linq.Expressions;
 using static GradientDescent.GradientDescent;
+using Antlr4.Runtime.Misc;
 
 public partial class Form1 : Form
 {
@@ -23,6 +24,7 @@ public partial class Form1 : Form
     private double minRange;
     private double maxRange;
     private GradientDescent.OptimizationFunction func;
+    private string functionText;
     private void Form1_Load(object sender, EventArgs e)
     {
 
@@ -52,8 +54,25 @@ public partial class Form1 : Form
         {
             ga.Evolve();
         }
+        double[] Population = ga.GetPopulation();
+        //Plot
+        double[] xs = Population;
+        double[] ys = xs.Select(x => func(x)).ToArray();
+            //Sort values
+        var sorted = xs.Zip(ys, (x, y) => new { x, y }).OrderBy(Pair => Pair.x).ToArray();
+
+        double[] sortedXs = sorted.Select(p => p.x).ToArray();
+        double[] sortedYs = sorted.Select(p => p.y).ToArray();
+        formsPlot1.Plot.Clear();
+        formsPlot1.Plot.Add.Scatter(sortedXs, sortedYs);
+        formsPlot1.Plot.Title($"Final Population after {generations}");
+        formsPlot1.Plot.XLabel("x");
+        formsPlot1.Plot.YLabel($"f(x) = {functionText}");
+        formsPlot1.Refresh();
+
+
         //populate table
-        foreach (var individual in ga.GetPopulation())
+        foreach (var individual in Population)
         {
             double fx = func(individual);
             dataGridView1.Rows.Add(individual.ToString("F4"), fx.ToString("F4"));
@@ -87,6 +106,7 @@ public partial class Form1 : Form
         {
             Entity expr = MathS.FromString(userInputFunc.Text);
             var compiled = expr.Compile("x");
+            functionText= userInputFunc.Text;
             return x => (double)compiled.Call(x).Real;
 
         }

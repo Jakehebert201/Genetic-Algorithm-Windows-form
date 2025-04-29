@@ -49,10 +49,18 @@ public void Evolve(){
 
     population = Mutation(newPopulation, mutationRate);
 }
+
+    /// <summary>
+    /// I've probably had to change this one function 100 times at this point. It now normalizes the values and determines fitness based on the best value.
+    /// </summary>
+    /// <param name="population"></param>
+    /// <param name="fitnessFunction"></param>
+    /// <returns></returns>
 private double[] CalculateFitness(double[] population, GradientDescent.GradientDescent.OptimizationFunction fitnessFunction){
     double[] fitness = new double[population.Length];
     for(int i = 0; i < population.Length; i++){
-        fitness[i] = minimize ? -fitnessFunction(population[i]) : fitnessFunction(population[i]);
+            double raw = fitnessFunction(population[i]);
+            fitness[i] = minimize ? 1.0/(1.0+Math.Abs(raw)) : raw;
     }
     return fitness;
 }

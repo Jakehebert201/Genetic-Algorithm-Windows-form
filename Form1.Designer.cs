@@ -49,6 +49,7 @@ partial class Form1
         labelMinRange = new Label();
         labelMaxRange = new Label();
         numMinRange = new NumericUpDown();
+        formsPlot1 = new ScottPlot.WinForms.FormsPlot();
         ((System.ComponentModel.ISupportInitialize)numPopSize).BeginInit();
         ((System.ComponentModel.ISupportInitialize)numMutationRate).BeginInit();
         ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -244,12 +245,21 @@ partial class Form1
         numMinRange.Size = new Size(41, 23);
         numMinRange.TabIndex = 19;
         // 
+        // formsPlot1
+        // 
+        formsPlot1.DisplayScale = 1F;
+        formsPlot1.Location = new Point(671, 324);
+        formsPlot1.Name = "formsPlot1";
+        formsPlot1.Size = new Size(489, 331);
+        formsPlot1.TabIndex = 20;
+        // 
         // Form1
         // 
         AutoScaleMode = AutoScaleMode.Inherit;
         AutoSize = true;
         BackColor = SystemColors.ActiveCaption;
-        ClientSize = new Size(984, 811);
+        ClientSize = new Size(1498, 811);
+        Controls.Add(formsPlot1);
         Controls.Add(numMinRange);
         Controls.Add(labelMaxRange);
         Controls.Add(labelMinRange);
@@ -313,4 +323,5 @@ partial class Form1
     private Label labelMinRange;
     private Label labelMaxRange;
     private NumericUpDown numMinRange;
+    private ScottPlot.WinForms.FormsPlot formsPlot1;
 }
